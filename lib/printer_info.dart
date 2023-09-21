@@ -147,7 +147,6 @@ class Model implements AModel {
   static final QL_800 = Model._internal2("QL_800", 51, QL_580N);
   static final QL_810W = Model._internal2("QL_810W", 52, QL_580N);
   static final QL_820NWB = Model._internal2("QL_820NWB", 53, QL_580N);
-  static final QL_820NWBc = Model._internal2("QL_820NWBc", 53, QL_580N);
   static final QL_1100 = Model._internal(
       "QL_1100", 54, QL1100.W38.getId(), PrinterSeries.QL1100_LABEL_PRINTER);
   static final QL_1110NWB = Model._internal2("QL_1110NWB", 55, QL_1100);
@@ -168,27 +167,6 @@ class Model implements AModel {
   static final PT_P715eBT = Model._internal2("PT_P715eBT", 69, PT_E550W);
   static final PT_P910BT = Model._internal(
       "PT_P910BT", 68, PT.W36.getId(), PrinterSeries.PT_LABEL_PRINTER);
-  static final RJ_3230B = Model._internal2(
-      "RJ_3230B", 70, RJ_4030);
-  static final RJ_3250WB = Model._internal2(
-      "RJ_3250WB", 71, RJ_4030);
-  static final PT_D410 = Model._internal(
-      "PT_D410", 72, PT.W18.getId(), PrinterSeries.PT_LABEL_PRINTER);
-  static final PT_D460BT = Model._internal2("PT_D460BT", 73, PT_D410);
-  static final PT_D610BT = Model._internal(
-      "PT_D610BT", 74, PT.W24.getId(), PrinterSeries.PT_LABEL_PRINTER);
-  static final PJ_822 = Model._internal2("PJ_822", 75, PJ_522);
-  static final PJ_823 = Model._internal2("PJ_823", 76, PJ_522);
-  static final PJ_862 = Model._internal2("PJ_862", 77, PJ_522);
-  static final PJ_863 = Model._internal2("PJ_863", 78, PJ_522);
-  static final PJ_883 = Model._internal2("PJ_883", 79, PJ_522);
-  static final TD_2030A = Model._internal2("TD_2030A", 80, RJ_4030);
-  static final TD_2125N = Model._internal2("TD_2125N", 81, RJ_4030);
-  static final TD_2125NWB = Model._internal2("TD_2125NWB", 82, RJ_4030);
-  static final TD_2135N = Model._internal2("TD_2135N", 83, RJ_4030);
-  static final TD_2135NWB = Model._internal2("TD_2135NWB", 84, RJ_4030);
-
-
   static final UNSUPPORTED = Model._internal("UNSUPPORTED", 255,
       PaperSize.CUSTOM.getPaperId(), PrinterSeries.UNSUPPORTED);
 
@@ -244,7 +222,6 @@ class Model implements AModel {
     QL_800,
     QL_810W,
     QL_820NWB,
-    QL_820NWBc,
     QL_1100,
     QL_1110NWB,
     QL_1115NWB,
@@ -261,21 +238,6 @@ class Model implements AModel {
     MW_270,
     PT_P715eBT,
     PT_P910BT,
-    RJ_3230B,
-    RJ_3250WB,
-    PT_D410,
-    PT_D460BT,
-    PT_D610BT,
-    PJ_822,
-    PJ_823,
-    PJ_862,
-    PJ_863,
-    PJ_883,
-    TD_2030A,
-    TD_2125N,
-    TD_2125NWB,
-    TD_2135N,
-    TD_2135NWB,
     UNSUPPORTED
   ];
 
@@ -907,8 +869,6 @@ class ErrorCode {
   static const ERROR_UNSUPPORTED_MONO_COLOR = ErrorCode._internal(55, "ERROR_UNSUPPORTED_MONO_COLOR");
   static const ERROR_MINIMUM_LENGTH_LIMIT = ErrorCode._internal(56, "ERROR_MINIMUM_LENGTH_LIMIT");
   static const ERROR_WORKPATH_NOT_SET = ErrorCode._internal(57, "ERROR_WORKPATH_NOT_SET");
-  // Another_Brother specific error. Sent when the Android device does not have storage permissions granted.
-  static const ERROR_STORAGE_PERMISSION_NOT_GRANTED = ErrorCode._internal(9999, "ERROR_STORAGE_PERMISSION_NOT_GRANTED");
 
   static final _values = [
     ERROR_NONE,
@@ -966,8 +926,7 @@ class ErrorCode {
     ERROR_UNSUPPORTED_TWO_COLOR,
     ERROR_UNSUPPORTED_MONO_COLOR,
     ERROR_MINIMUM_LENGTH_LIMIT,
-    ERROR_WORKPATH_NOT_SET,
-    ERROR_STORAGE_PERMISSION_NOT_GRANTED
+    ERROR_WORKPATH_NOT_SET
   ];
 
   int getId() {
@@ -3299,14 +3258,14 @@ class Printer {
     // TODO Consider moving this to iOS side.
     if (Platform.isIOS) {
       //BLE Scanning
-      FlutterBluePlus? flutterBlue = FlutterBluePlus();
+      FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
 
       // Start scanning
-      FlutterBluePlus.startScan(withServices: [Guid("A76EB9E0-F3AC-4990-84CF-3A94D2426B2B")], timeout: Duration(seconds: timeout~/1000));
+      flutterBlue.startScan(withServices: [Guid("A76EB9E0-F3AC-4990-84CF-3A94D2426B2B")], timeout: Duration(seconds: timeout~/1000));
 
       Set<BLEPrinter> foundDevices = {};
       // Listen to scan results
-      var subscription = FlutterBluePlus.scanResults.listen((results) {
+      var subscription = flutterBlue.scanResults.listen((results) {
         for (ScanResult r in results) {
           BLEPrinter found = BLEPrinter(localName: r.device.name);
           if (!foundDevices.contains(found)) {
