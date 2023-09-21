@@ -1,23 +1,27 @@
 # another_brother
 
-Another Bother SDK library for Flutter. For full demo app see Another-Brother-Demo-Prime https://github.com/CodeMinion/Demo-Another-Brother-Prime
+Another Brother SDK library for Flutter. For full demo app see Another-Brother-Demo-Prime https://github.com/CodeMinion/Demo-Another-Brother-Prime
 
 ## Android Support
+
 - Bluetooth/BLE
 - WiFi
 - USB
 
 ## iOS Support
+
 - Bluetooth/BLE
 - WiFi
-Note: This branch does not include RJ-Go support on IOS.
+  Note: This branch does not include RJ-Go support on IOS.
 
 ## Android Min SDK
+
 - Requires minSdkVersion 19
 
 ## iOS Info.plist
 
 Add the following to your Info.plist
+
 ```
 	<!-- Another Brother Section -->
 	<key>NSLocalNetworkUsageDescription</key>
@@ -50,12 +54,14 @@ Add the following to your Info.plist
     	</array>
     	<!-- End Another Brother Section -->
 ```
+
 On your Runner make sure to mark: Allow non-modular includes as yes.
 Also make sure to mark the libBROTHERSDK.a as belonging to another_brother in xCode: https://www.youtube.com/watch?v=42dBVdXU8gk
 
 iOS Setup Video: https://www.youtube.com/watch?v=AcFnd-6hSew
 
 ## Publishing to the Apple Store
+
 When submitting your application to the Apple store you'll need to obtain a PPID from Brother. This can be achieved by making a request here: https://secure6.brother.co.jp/mfi/Top.aspx
 
 Without it you'll likely receive a rejection message along the lines of:
@@ -64,9 +70,8 @@ Without it you'll likely receive a rejection message along the lines of:
 App has not been authorized by the accessory manufacturer to work with the MFi accessory
 ```
 
-
-
 ## Apps Built with another_brother
+
 Have an app built using another_brother let me know and I will add it here!
 
 - Easy Menu: https://www.youtube.com/watch?v=xy9qYo03pOQ
@@ -78,9 +83,9 @@ Have an app built using another_brother let me know and I will add it here!
 - ARMS Mobile: https://apps.apple.com/us/app/arms-mobile/id1615127530
 
 # Brother Hackathon
+
 Feel free to use any of my GitHub repositories in your apps. You should also consider
 attending the free Brother Hackathon happening this year. You get a free Brother QL-1110NWB,
 a PT-P910BT, and possibly an awesome DS-940DW mobile scanner. Visit brotherhackathon.com for
 more information. I will be teaching workshops, and they are free. You can ask me any questions.
 Thank you.
-
